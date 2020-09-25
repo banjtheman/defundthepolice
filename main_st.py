@@ -23,7 +23,7 @@ except:
     os.environ["LANG "] = "en_US.UTF-8"
     os.environ["LANGUAGE "] = "en_US:en"
     os.environ["LC_ALL"] = "en_US.UTF-8"
-    locale.setlocale(os.environ["LC_ALL"],'en_US.UTF-8')
+    locale.setlocale(1,'en_US.UTF-8')
 
 def draw_image(text ,bg_color,text_color,font):
     image_width = 600

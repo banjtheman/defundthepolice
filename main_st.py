@@ -17,12 +17,12 @@ try:
 except:
     
 
-    cmd = "locale-gen en_US.UTF-8"
+    cmd = 'export LC_ALL="en_US.UTF-8" & export LC_CTYPE="en_US.UTF-8" & sudo dpkg-reconfigure locales'
     os.system(cmd)
     #locale.setlocale(1,'en_US.UTF-8')
-    os.environ["LANG "] = "en_US.UTF-8"
-    os.environ["LANGUAGE "] = "en_US:en"
-    os.environ["LC_ALL"] = "en_US.UTF-8"
+    # os.environ["LANG "] = "en_US.UTF-8"
+    # os.environ["LANGUAGE "] = "en_US:en"
+    # os.environ["LC_ALL"] = "en_US.UTF-8"
     locale.setlocale(1,'en_US.UTF-8')
 
 def draw_image(text ,bg_color,text_color,font):

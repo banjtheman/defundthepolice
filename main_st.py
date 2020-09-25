@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw, ImageFont
 STATES_FOLDER = "data/states/"
 
 # set currency
-locale.setlocale(locale.LC_ALL, "")
+locale.setlocale(locale.LC_ALL, 'en_CA.UTF-8')
 
 def draw_image(text ,bg_color,text_color,font):
     image_width = 600

@@ -1,7 +1,6 @@
 import json
 import glob
 import os
-import locale
 import textwrap
 import math
 
@@ -11,21 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 STATES_FOLDER = "data/states/"
 
-# set currency
-try:
-    locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
-except:
-    
 
-    cmd = 'export LC_ALL="en_US.UTF-8" & export LC_CTYPE="en_US.UTF-8" & sudo dpkg-reconfigure locales'
-    status = os.system(cmd)
-    print(status)
-    #locale.setlocale(1,'en_US.UTF-8')
-    # os.environ["LANG "] = "en_US.UTF-8"
-    # os.environ["LANGUAGE "] = "en_US:en"
-    # os.environ["LC_ALL"] = "en_US.UTF-8"
-    #st.write(locale.locale_alias)
-    locale.setlocale(1,'en_US.UTF-8')
 
 def draw_image(text ,bg_color,text_color,font):
     image_width = 600
@@ -72,7 +57,7 @@ def make_investment_image(investment,reinvest_money,bg_color,text_color,font):
         cpu_cost = 500.0
         laptops = int(math.ceil( reinvest_money / cpu_cost))
 
-        laptops_string = str(locale.currency(laptops, symbol=False, grouping=True)).replace(".00","")
+        laptops_string = str(f'{laptops:n}')
         text = "That translates to "+ laptops_string + " laptops for our community" 
         wrapped_string = textwrap.wrap(text, width=30)
         image = draw_image(wrapped_string,bg_color,text_color,font)
@@ -97,7 +82,7 @@ def main():
     #st.write(police_data)
 
     # Show budget for year
-    money = locale.currency(police_data["budget"], grouping=True)
+    money = "$"+f'{police_data["budget"]:n}'
     header_string = (
         # "For "
         # + str(police_data["year"])
@@ -131,7 +116,7 @@ def main():
 
     defund_decmial = float(defund / 100)
     reinvest_money = float(police_data["budget"]) * defund_decmial
-    reinvest_money_string = locale.currency(reinvest_money, grouping=True)
+    reinvest_money_string = "$"+f'{int(reinvest_money):n}'
 
     investments = ["Education","Healthcare", "Social Programs"]
     realocate = st.selectbox("Reinvest", investments)

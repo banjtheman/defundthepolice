@@ -23,6 +23,7 @@ except:
     # os.environ["LANG "] = "en_US.UTF-8"
     # os.environ["LANGUAGE "] = "en_US:en"
     # os.environ["LC_ALL"] = "en_US.UTF-8"
+    st.write(locale.locale_alias)
     locale.setlocale(1,'en_US.UTF-8')
 
 def draw_image(text ,bg_color,text_color,font):

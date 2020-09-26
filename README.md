@@ -14,7 +14,7 @@ https://s4a.streamlit.io/banjtheman/defundthepolice/main/main_st.py/+/
 To start simply install requirements, and use streamlit to launch the app
 
 ```
-pp install -r requirements.txt
+pip install -r requirements.txt
 streamlit run main_st.py
 ```
 

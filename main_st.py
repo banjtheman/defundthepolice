@@ -11,8 +11,19 @@ from PIL import Image, ImageDraw, ImageFont
 STATES_FOLDER = "data/states/"
 
 
+def show_menu():
+    st.sidebar.title("Social Media Toolkit Generator")
+    st.sidebar.header("Defund the Police")
+
+    st.sidebar.markdown("“Defund the police” means reallocating or redirecting funding away from the police department to other government agencies funded by the local municipality.")
+
+    st.sidebar.markdown("The goal of this tool is to highlight how much money local communities spend on Police, and then how reallocating funds can make a direct impact into their community")
+
+    #TODO add more "apps" such as county compare tool
+
 
 def draw_image(text ,bg_color,text_color,font):
+    #TODO make advanced pannel for deep customizations
     image_width = 600
     image_height = 335
     img = Image.new('RGB', (image_width, image_height), color = bg_color)
@@ -57,7 +68,7 @@ def make_investment_image(investment,reinvest_money,bg_color,text_color,font):
         cpu_cost = 500.0
         laptops = int(math.ceil( reinvest_money / cpu_cost))
 
-        laptops_string = str(f'{laptops:n}')
+        laptops_string = str(f'{laptops:,}')
         text = "That translates to "+ laptops_string + " laptops for our community" 
         wrapped_string = textwrap.wrap(text, width=30)
         image = draw_image(wrapped_string,bg_color,text_color,font)
@@ -68,7 +79,8 @@ def make_investment_image(investment,reinvest_money,bg_color,text_color,font):
     #TODO add in extra investments
 
 def main():
-    st.header("Defund the police")
+    show_menu()
+    st.header("Select Community")
 
     # Select state
     states = os.listdir(STATES_FOLDER)
@@ -82,7 +94,7 @@ def main():
     #st.write(police_data)
 
     # Show budget for year
-    money = "$"+f'{police_data["budget"]:n}'
+    money = "$"+f'{police_data["budget"]:,}'
     header_string = (
         # "For "
         # + str(police_data["year"])
@@ -116,7 +128,7 @@ def main():
 
     defund_decmial = float(defund / 100)
     reinvest_money = float(police_data["budget"]) * defund_decmial
-    reinvest_money_string = "$"+f'{int(reinvest_money):n}'
+    reinvest_money_string = "$"+f'{int(reinvest_money):,}'
 
     investments = ["Education","Healthcare", "Social Programs"]
     realocate = st.selectbox("Reinvest", investments)

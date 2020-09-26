@@ -26,3 +26,5 @@ streamlit run main_st.py
 In order to have effective messages, we need data. This Hacktoberfest we want to collect as much data as we can from police budgets in order to create more effective messages.
 
 There will be PRs you can do, right now that wil get us data and help spread our message.
+
+To learn more check out their [FAQ](https://hacktoberfest.digitalocean.com/faq/)

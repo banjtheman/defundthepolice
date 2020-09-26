@@ -9,6 +9,11 @@ The goal of this project is to provide transparency on police budgets on a local
 You can view the site here
 https://s4a.streamlit.io/banjtheman/defundthepolice/main/main_st.py/+/
 
+Here is some example output
+
+![Arl budget](images/arl_budget.jpeg)
+![Arl defund](images/arl_defund.jpeg)
+![Arl cpu](images/arl_cpu.jpeg)
 
 ## Run Local
 To start simply install requirements, and use streamlit to launch the app

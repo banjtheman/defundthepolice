@@ -24,6 +24,11 @@ streamlit run main_st.py
 ```
 
 
+## 🤝 Contributing <a href = "https://discord.gg/p9dD8p5"><img alt="Discord" src="https://img.shields.io/discord/759597146076348456"></a>
+
+Have ideas on what features to add? [Open a new issue](https://github.com/banjtheman/defundthepolice/issues/new/choose)! We need all the help we can get! You can also join the discord server to give suggestions.
+
+
 ## Hacktoberfest 
 
 ![Hacktoberfest](images/hf2020.png)

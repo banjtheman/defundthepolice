@@ -8,8 +8,11 @@ import pandas as pd
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
-STATES_FOLDER = "data/states/"
+import viz
 
+
+STATES_FOLDER = "data/states/"
+st.set_option('deprecation.showfileUploaderEncoding', False)
 
 def show_menu():
     st.sidebar.title("Social Media Toolkit Generator")
@@ -46,18 +49,26 @@ def draw_image(text ,bg_color,text_color,font):
     return img
 
 
+def calc_percent(row,total_budget):
+
+    return round((float(row["budget"]/float(total_budget)) * 100),2)
+
 def create_budget_json(state,county):
     # read budget.csv
     budget_csv_path = STATES_FOLDER + state + "/" + county + "/budget.csv"
     budget_df = pd.read_csv(budget_csv_path, index_col=False)
     #st.write(budget_df)
 
+    #add percentages to budget_df
+    total_budget = budget_df["budget"].sum()
+    budget_df["percent"] = budget_df.apply(lambda row: calc_percent(row, total_budget), axis=1)
+
     # get police budget
     police_df = budget_df.loc[budget_df["item"] == "Police"]
     police_json = police_df.reset_index().to_json(orient="records")
     police_data = json.loads(police_json)[0]
 
-    return police_data
+    return police_data, budget_df
 
 
 
@@ -78,6 +89,42 @@ def make_investment_image(investment,reinvest_money,bg_color,text_color,font):
     
     #TODO add in extra investments
 
+
+def get_concat_v_cut(im1, im2):
+    dst = Image.new('RGB', (min(im1.width, im2.width), im1.height + im2.height))
+    dst.paste(im1, (0, 0))
+    dst.paste(im2, (0, im1.height))
+    return dst
+
+
+def bar_chart_banner(bar_chart,state,county,bg_color,font,text,text_color):
+
+    #lets make simple image
+    image_width = 600
+    image_height = 200
+    img = Image.new('RGB', (image_width, image_height), color = bg_color)
+    canvas  = ImageDraw.Draw(img)
+    font = ImageFont.truetype(font, size=24)
+    pad = -25
+    starter = 40
+    #print(text)
+    for line in text:
+        #print(line)
+
+        #canvas.textsize(text, font=font)
+        #canvas.text((10,10), text, fill=(255, 255, 0))
+        text_width, text_height = canvas.textsize(line, font=font)
+        
+        x_pos = int((image_width - text_width) / 2)
+        y_pos = starter + pad
+        canvas.text((x_pos, y_pos), line, font=font, fill=text_color)
+        pad += text_height + 5
+
+    
+    dst = get_concat_v_cut(img,bar_chart)
+    st.image(dst)
+
+
 def main():
     show_menu()
     st.header("Select Community")
@@ -90,8 +137,8 @@ def main():
     counties = os.listdir(STATES_FOLDER + state)
     county = st.selectbox("Select County", counties)
 
-    police_data = create_budget_json(state,county)
-    #st.write(police_data)
+    police_data, budget_df = create_budget_json(state,county)
+    st.write(budget_df)
 
     # Show budget for year
     money = "$"+f'{police_data["budget"]:,}'
@@ -152,7 +199,21 @@ def main():
     #based on input show what we can do...
     make_investment_image(realocate,reinvest_money,bg_color,text_color,font)
     
-    
+    #TODO make this another "app" in sidebar for users to select 
+    #TODO have way to select different visualizations
+    bar_chart = viz.bar_graph(budget_df)
+
+
+
+    wrapped_string = textwrap.wrap(header_string +"\n"+ realoc_str, width=30)
+    uploaded_file = st.file_uploader("Choose an Image File")
+    if uploaded_file is not None:
+        try:
+            bar_chart = Image.open(uploaded_file)
+            bar_chart_banner(bar_chart,state,county,bg_color,font,wrapped_string,text_color)
+        except Exception as error:
+            st.error(error)
+
 
 
 if __name__ == "__main__":

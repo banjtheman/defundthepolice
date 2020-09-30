@@ -5,20 +5,12 @@ import pandas as pd
 import numpy as np
 import altair as alt
 import streamlit as st
-from altair_saver import save
-
-
 
 def bar_graph(df):
 
     st.info("Select which columns to display on the bar chart below which displays percent of budget")
-
-
     selectd_cols = st.multiselect('Select columns',list(df["item"]),list(df["item"]))
-
-
     df = df.loc[df['item'].isin(selectd_cols)]
-
 
     #x_col = st.selectbox("Select x axis for bar chart", df.columns)
     #xcol_string=x_col+":O"
@@ -44,5 +36,4 @@ def bar_graph(df):
     st.altair_chart(chart, use_container_width=True)
     #TODO figure out saving images
     #chart.save('chart.png')
-    
     return chart

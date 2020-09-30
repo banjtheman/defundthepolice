@@ -64,7 +64,8 @@ def create_budget_json(state,county):
     budget_df["percent"] = budget_df.apply(lambda row: calc_percent(row, total_budget), axis=1)
 
     # get police budget
-    police_df = budget_df.loc[budget_df["item"] == "Police"]
+    #TODO may need a clever way to get Police budget, or let user pick
+    police_df = budget_df.loc[budget_df["item"].str.contains("Police")]
     police_json = police_df.reset_index().to_json(orient="records")
     police_data = json.loads(police_json)[0]
 
@@ -155,7 +156,9 @@ def main():
     wrapped_string = textwrap.wrap(header_string, width=30)
     #st.header(wrapped_string)
 
-    fonts = glob.glob("fonts/*")
+    fonts = ["fonts/Chunk_Five_Print.otf"]
+
+    fonts.extend(glob.glob("fonts/*"))
     font = st.selectbox("Select Font", fonts)
 
 

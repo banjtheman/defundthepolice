@@ -146,7 +146,6 @@ def bar_chart_banner(bar_chart, state, county, bg_color, font, text, text_color)
 
 
 def altair_chart(data):
-    print(type(data))
     return altair.Chart(data, height=500).transform_calculate(
         percent_adjusted="datum.percent / 100"
     ).mark_bar().encode(

@@ -1,14 +1,10 @@
-import sys, argparse, logging
-import json
-
-import pandas as pd
-import numpy as np
 import altair as alt
 import streamlit as st
 
+from plotly import graph_objects
+
 
 def bar_graph(df):
-
     st.info(
         "Select which columns to display on the bar chart below which displays percent of budget"
     )
@@ -42,3 +38,17 @@ def bar_graph(df):
     # TODO figure out saving images
     # chart.save('chart.png')
     return chart
+
+
+def pie_chart(data):
+    # chart = altair.Chart(data, height=500).transform_calculate(
+    #     percent_adjusted="datum.percent / 100"
+    # ).mark_bar().encode(
+    #     altair.X("item:O"),
+    #     altair.Y("percent_adjusted:Q", axis=altair.Axis(format="%")),
+    # )
+    # st.altair_chart(chart, use_container_width=True)
+    labels = list(data.get("item", []))
+    values = list(data.get("percent", []))
+    fig = graph_objects.Figure(data=[graph_objects.Pie(labels=labels, values=values)])
+    st.plotly_chart(fig, use_container_width=True)

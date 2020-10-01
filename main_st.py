@@ -16,10 +16,7 @@ PIE_CHART = "Pie Chart"
 STATES_FOLDER = "data/states/"
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
-CHART_DICT = {
-    BAR_CHART: bar_graph,
-    PIE_CHART: pie_chart
-}
+CHART_DICT = {BAR_CHART: bar_graph, PIE_CHART: pie_chart}
 
 
 def show_menu():
@@ -68,6 +65,28 @@ def calc_percent(row, total_budget):
     return round((float(row["budget"] / float(total_budget)) * 100), 2)
 
 
+def select_police_row(budget_df):
+    try:
+        police_df = budget_df.loc[budget_df["item"].str.contains("Police")]
+        police_json = police_df.reset_index().to_json(orient="records")
+        police_data = json.loads(police_json)[0]
+    except Exception as no_police_row:
+        logging.error(no_police_row)
+        try:
+            police_df = budget_df.loc[budget_df["item"].str.contains("Safety")]
+            police_json = police_df.reset_index().to_json(orient="records")
+            police_data = json.loads(police_json)[0]
+        except Exception as no_safety_row:
+            logging.error(no_safety_row)
+            st.warning("No column named police, manually select")
+            police_col = st.selectbox("Select Police budget", list(budget_df["item"]))
+            police_df = budget_df.loc[budget_df["item"].str.contains(police_col)]
+            police_json = police_df.reset_index().to_json(orient="records")
+            police_data = json.loads(police_json)[0]
+
+    return police_data
+
+
 def create_budget_json(state, county):
     # read budget.csv
     budget_csv_path = STATES_FOLDER + state + "/" + county + "/budget.csv"
@@ -80,22 +99,7 @@ def create_budget_json(state, county):
         lambda row: calc_percent(row, total_budget), axis=1
     )
 
-    # get police budget
-    # TODO may need a clever way to get Police budget, or let user pick
-    try:
-        police_df = budget_df.loc[budget_df["item"].str.contains("Police")]
-        police_json = police_df.reset_index().to_json(orient="records")
-        police_data = json.loads(police_json)[0]
-    except Exception as error:
-        logging.error(error)
-        st.warning("No column named police, manually select")
-        police_col = st.selectbox("Select Police budget",list(budget_df["item"]))
-
-        police_df = budget_df.loc[budget_df["item"].str.contains(police_col)]
-
-        police_json = police_df.reset_index().to_json(orient="records")
-        police_data = json.loads(police_json)[0]
-
+    police_data = select_police_row(budget_df)
     return police_data, budget_df
 
 
@@ -259,7 +263,7 @@ def main():
             }
             </style>
             """
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":

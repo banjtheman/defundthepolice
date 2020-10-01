@@ -1,3 +1,4 @@
+import altair
 import json
 import glob
 import os
@@ -21,11 +22,13 @@ def show_menu():
     st.sidebar.header("Defund the Police")
 
     st.sidebar.markdown(
-        "“Defund the police” means reallocating or redirecting funding away from the police department to other government agencies funded by the local municipality."
+        "“Defund the police” means reallocating or redirecting funding away from the "
+        "police department to other government agencies funded by the local municipality."
     )
 
     st.sidebar.markdown(
-        "The goal of this tool is to highlight how much money local communities spend on Police, and then how reallocating funds can make a direct impact into their community"
+        "The goal of this tool is to highlight how much money local communities spend on "
+        "Police, and then how reallocating funds can make a direct impact into their community"
     )
 
     # TODO add more "apps" such as county compare tool
@@ -88,7 +91,6 @@ def create_budget_json(state, county):
         police_json = police_df.reset_index().to_json(orient="records")
         police_data = json.loads(police_json)[0]
 
-
     return police_data, budget_df
 
 
@@ -143,6 +145,16 @@ def bar_chart_banner(bar_chart, state, county, bg_color, font, text, text_color)
     st.image(dst)
 
 
+def altair_chart(data):
+    print(type(data))
+    return altair.Chart(data, height=500).transform_calculate(
+        percent_adjusted="datum.percent / 100"
+    ).mark_bar().encode(
+        altair.X("item:O"),
+        altair.Y("percent_adjusted:Q", axis=altair.Axis(format="%")),
+    )
+
+
 def main():
     show_menu()
     st.header("Select Community")
@@ -157,6 +169,7 @@ def main():
 
     police_data, budget_df = create_budget_json(state, county)
     st.write(budget_df)
+    st.altair_chart(altair_chart(budget_df), use_container_width=True)
 
     # Show budget for year
     money = "$" + f'{police_data["budget"]:,}'
@@ -249,6 +262,7 @@ def main():
             </style>
             """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 
 if __name__ == "__main__":
     main()

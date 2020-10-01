@@ -2,3 +2,4 @@ streamlit
 pandas
 pillow
 black
+altair

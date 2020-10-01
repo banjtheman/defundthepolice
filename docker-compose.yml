@@ -3,6 +3,8 @@ version: "3"
 services:
   main:
     build: .
+    ports:
+      - "8501:8501"
     volumes:
       - ".:/app"
     command: "streamlit run main_st.py"

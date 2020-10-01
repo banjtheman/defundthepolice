@@ -2,3 +2,5 @@ streamlit
 pandas
 pillow
 black
+altair
+plotly

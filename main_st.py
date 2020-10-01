@@ -9,11 +9,17 @@ import pandas as pd
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
-import viz
+from viz import bar_graph, pie_chart
 
-
+BAR_CHART = "Bar Chart"
+PIE_CHART = "Pie Chart"
 STATES_FOLDER = "data/states/"
 st.set_option("deprecation.showfileUploaderEncoding", False)
+
+CHART_DICT = {
+    BAR_CHART: bar_graph,
+    PIE_CHART: pie_chart
+}
 
 
 def show_menu():
@@ -21,11 +27,13 @@ def show_menu():
     st.sidebar.header("Defund the Police")
 
     st.sidebar.markdown(
-        "“Defund the police” means reallocating or redirecting funding away from the police department to other government agencies funded by the local municipality."
+        "“Defund the police” means reallocating or redirecting funding away from the "
+        "police department to other government agencies funded by the local municipality."
     )
 
     st.sidebar.markdown(
-        "The goal of this tool is to highlight how much money local communities spend on Police, and then how reallocating funds can make a direct impact into their community"
+        "The goal of this tool is to highlight how much money local communities spend on "
+        "Police, and then how reallocating funds can make a direct impact into their community"
     )
 
     # TODO add more "apps" such as county compare tool
@@ -87,7 +95,6 @@ def create_budget_json(state, county):
 
         police_json = police_df.reset_index().to_json(orient="records")
         police_data = json.loads(police_json)[0]
-
 
     return police_data, budget_df
 
@@ -218,7 +225,11 @@ def main():
 
     # TODO make this another "app" in sidebar for users to select
     # TODO have way to select different visualizations
-    bar_chart = viz.bar_graph(budget_df)
+    chart_types = [BAR_CHART, PIE_CHART]
+    selected_chart = st.selectbox("Chart Types", chart_types)
+    CHART_DICT.get(selected_chart)(budget_df)
+    # bar_chart = viz.bar_graph(budget_df)
+    # st.altair_chart(altair_chart(budget_df), use_container_width=True)
 
     wrapped_string = textwrap.wrap(header_string + "\n" + realoc_str, width=30)
     uploaded_file = st.file_uploader("Choose an Image File")
@@ -249,6 +260,7 @@ def main():
             </style>
             """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 
 if __name__ == "__main__":
     main()

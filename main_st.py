@@ -3,6 +3,7 @@ import glob
 import os
 import textwrap
 import math
+import logging
 
 import pandas as pd
 import streamlit as st
@@ -73,9 +74,20 @@ def create_budget_json(state, county):
 
     # get police budget
     # TODO may need a clever way to get Police budget, or let user pick
-    police_df = budget_df.loc[budget_df["item"].str.contains("Police")]
-    police_json = police_df.reset_index().to_json(orient="records")
-    police_data = json.loads(police_json)[0]
+    try:
+        police_df = budget_df.loc[budget_df["item"].str.contains("Police")]
+        police_json = police_df.reset_index().to_json(orient="records")
+        police_data = json.loads(police_json)[0]
+    except Exception as error:
+        logging.error(error)
+        st.warning("No column named police, manually select")
+        police_col = st.selectbox("Select Police budget",list(budget_df["item"]))
+
+        police_df = budget_df.loc[budget_df["item"].str.contains(police_col)]
+
+        police_json = police_df.reset_index().to_json(orient="records")
+        police_data = json.loads(police_json)[0]
+
 
     return police_data, budget_df
 

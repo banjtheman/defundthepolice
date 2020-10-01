@@ -16,11 +16,18 @@ class NamesSpider(scrapy.Spider):
 
     def parse(self,response):
 
-        all_counties = response.css('.column-width:nth-child(74) li:nth-child(10) , .column-width li > a::text').extract()
+        all_counties = response.css('ol li > a::text').extract()
         for county in all_counties:
             county_state = county.split(", ")
+            print(county_state)
+            # if (county_state[1] == r"American Samoa</a>"):
+            #     county_state[1] = r"American Samoa"
+            with open("names.txt","a") as fh:
+                if len(county_state) == 2:
+                    fh.write(f"{county_state[0]} is in {county_state[1]} \t\n")
             #if statement removes the unnecessary data in the reponse
             if (len(county_state)==2):
+                
                 if os.path.exists(f'data/{county_state[1]}'):
                     #checking the existing path
                     if os.path.exists(f'data/{county_state[1]}/{county_state[0]}'):

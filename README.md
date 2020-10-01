@@ -38,3 +38,20 @@ In order to have effective messages, we need data. This Hacktoberfest we want to
 There will be PRs you can do, right now that wil get us data and help spread our message.
 
 To learn more check out their [FAQ](https://hacktoberfest.digitalocean.com/faq/)
+
+## Dockerized applciation
+
+To start the application first install [Docker](https://docs.docker.com/engine/install/) 
+and (docker-compose)[https://docs.docker.com/compose/].
+
+P.S: Make sure to follow post installation [steps](https://docs.docker.com/engine/install/linux-postinstall/) 
+for linux distributions.
+
+After this you can run the application using:
+* `docker-compose up --build -d`
+
+In order to look at the logs you can run:
+* `docker-compose logs -f`
+
+In order to stop the application from running on docker you can do
+* `docker-compose down`

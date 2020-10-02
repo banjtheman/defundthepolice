@@ -9,14 +9,11 @@ import pandas as pd
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
-from viz import bar_graph, pie_chart
+from viz import ChartDisplay, ChartTypes
 
-BAR_CHART = "Bar Chart"
-PIE_CHART = "Pie Chart"
+
 STATES_FOLDER = "data/states/"
 st.set_option("deprecation.showfileUploaderEncoding", False)
-
-CHART_DICT = {BAR_CHART: bar_graph, PIE_CHART: pie_chart}
 
 
 def show_menu():
@@ -229,11 +226,8 @@ def main():
 
     # TODO make this another "app" in sidebar for users to select
     # TODO have way to select different visualizations
-    chart_types = [BAR_CHART, PIE_CHART]
-    selected_chart = st.selectbox("Chart Types", chart_types)
-    CHART_DICT.get(selected_chart)(budget_df)
-    # bar_chart = viz.bar_graph(budget_df)
-    # st.altair_chart(altair_chart(budget_df), use_container_width=True)
+    selected_chart = st.selectbox("Chart Types", ChartTypes.list())
+    ChartDisplay(data=budget_df, chart=selected_chart).get_chart()
 
     wrapped_string = textwrap.wrap(header_string + "\n" + realoc_str, width=30)
     uploaded_file = st.file_uploader("Choose an Image File")

@@ -1,54 +1,62 @@
+from enum import Enum
+
 import altair as alt
 import streamlit as st
 
 from plotly import graph_objects
 
 
-def bar_graph(df):
-    st.info(
-        "Select which columns to display on the bar chart below which displays percent of budget"
-    )
-    selectd_cols = st.multiselect("Select columns", list(df["item"]), list(df["item"]))
-    df = df.loc[df["item"].isin(selectd_cols)]
+class ChartTypes(Enum):
+    BAR_CHART = "Bar Chart"
+    PIE_CHART = "Pie Chart"
 
-    # x_col = st.selectbox("Select x axis for bar chart", df.columns)
-    # xcol_string=x_col+":O"
-    # if st.checkbox("Show as continuous?",key="bar_chart_x_is_cont"):
-    x_col = "percent"
-    xcol_string = x_col + ":Q"
-    y_col = "item"
-    z_col = "percent"
-    # y_col = st.selectbox("Select y axis for bar chart", df.columns)
-    # z_col = st.selectbox("Select z axis for bar chart", df.columns)
+    @classmethod
+    def list(cls):
+        return list(map(lambda c: c.value, cls))
 
-    chart = (
-        alt.Chart(df)
-        .mark_bar()
-        .encode(x=xcol_string, y=y_col, color=z_col, tooltip=list(df.columns))
-        # .interactive()
-        # .properties(title="Defund The Police")
-        .configure_title(
-            fontSize=20,
+
+class ChartDisplay:
+    def __init__(self, data, chart=ChartTypes.BAR_CHART):
+        self.chart = chart
+        st.info(
+            "Select which columns to display on the bar chart below which displays percent of budget"
         )
-        .configure_axis(labelFontSize=10, titleFontSize=10)
-        .configure_legend(labelFontSize=10, titleFontSize=10)
-    )
+        selected_cols = st.multiselect("Select columns", list(data.get("item", "")), list(data.get("item", "")))
+        self.data = data.loc[data.get("item", "").isin(selected_cols)]
+        self.CHART_DICT = {ChartTypes.BAR_CHART.value: self.bar_chart, ChartTypes.PIE_CHART.value: self.pie_chart}
 
-    st.altair_chart(chart, use_container_width=True)
-    # TODO figure out saving images
-    # chart.save('chart.png')
-    return chart
+    def bar_chart(self):
+        # x_col = st.selectbox("Select x axis for bar chart", df.columns)
+        # xcol_string=x_col+":O"
+        # if st.checkbox("Show as continuous?",key="bar_chart_x_is_cont"):
+        x_col = "percent"
+        xcol_string = x_col + ":Q"
+        y_col = "item"
+        z_col = "percent"
+        # y_col = st.selectbox("Select y axis for bar chart", df.columns)
+        # z_col = st.selectbox("Select z axis for bar chart", df.columns)
 
+        chart = (
+            alt.Chart(self.data)
+                .mark_bar()
+                .encode(x=xcol_string, y=y_col, color=z_col, tooltip=list(self.data.columns))
+                # .interactive()
+                # .properties(title="Defund The Police")
+                .configure_title(
+                fontSize=20,
+            )
+                .configure_axis(labelFontSize=10, titleFontSize=10)
+                .configure_legend(labelFontSize=10, titleFontSize=10)
+        )
+        # TODO figure out saving images
+        # chart.save('chart.png')
+        return st.altair_chart(chart, use_container_width=True)
 
-def pie_chart(data):
-    # chart = altair.Chart(data, height=500).transform_calculate(
-    #     percent_adjusted="datum.percent / 100"
-    # ).mark_bar().encode(
-    #     altair.X("item:O"),
-    #     altair.Y("percent_adjusted:Q", axis=altair.Axis(format="%")),
-    # )
-    # st.altair_chart(chart, use_container_width=True)
-    labels = list(data.get("item", []))
-    values = list(data.get("percent", []))
-    fig = graph_objects.Figure(data=[graph_objects.Pie(labels=labels, values=values)])
-    st.plotly_chart(fig, use_container_width=True)
+    def pie_chart(self):
+        labels = list(self.data.get("item", []))
+        values = list(self.data.get("percent", []))
+        fig = graph_objects.Figure(data=[graph_objects.Pie(labels=labels, values=values)])
+        return st.plotly_chart(fig, use_container_width=True)
+
+    def get_chart(self):
+        return self.CHART_DICT.get(self.chart)()

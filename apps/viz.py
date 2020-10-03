@@ -21,9 +21,14 @@ class ChartDisplay:
         st.info(
             "Select which columns to display on the bar chart below which displays percent of budget"
         )
-        selected_cols = st.multiselect("Select columns", list(data.get("item", "")), list(data.get("item", "")))
+        selected_cols = st.multiselect(
+            "Select columns", list(data.get("item", "")), list(data.get("item", ""))
+        )
         self.data = data.loc[data.get("item", "").isin(selected_cols)]
-        self.CHART_DICT = {ChartTypes.BAR_CHART.value: self.bar_chart, ChartTypes.PIE_CHART.value: self.pie_chart}
+        self.CHART_DICT = {
+            ChartTypes.BAR_CHART.value: self.bar_chart,
+            ChartTypes.PIE_CHART.value: self.pie_chart,
+        }
 
     def bar_chart(self):
         # x_col = st.selectbox("Select x axis for bar chart", df.columns)
@@ -38,15 +43,17 @@ class ChartDisplay:
 
         chart = (
             alt.Chart(self.data)
-                .mark_bar()
-                .encode(x=xcol_string, y=y_col, color=z_col, tooltip=list(self.data.columns))
-                # .interactive()
-                # .properties(title="Defund The Police")
-                .configure_title(
+            .mark_bar()
+            .encode(
+                x=xcol_string, y=y_col, color=z_col, tooltip=list(self.data.columns)
+            )
+            # .interactive()
+            # .properties(title="Defund The Police")
+            .configure_title(
                 fontSize=20,
             )
-                .configure_axis(labelFontSize=10, titleFontSize=10)
-                .configure_legend(labelFontSize=10, titleFontSize=10)
+            .configure_axis(labelFontSize=10, titleFontSize=10)
+            .configure_legend(labelFontSize=10, titleFontSize=10)
         )
         # TODO figure out saving images
         # chart.save('chart.png')
@@ -55,7 +62,9 @@ class ChartDisplay:
     def pie_chart(self):
         labels = list(self.data.get("item", []))
         values = list(self.data.get("percent", []))
-        fig = graph_objects.Figure(data=[graph_objects.Pie(labels=labels, values=values)])
+        fig = graph_objects.Figure(
+            data=[graph_objects.Pie(labels=labels, values=values)]
+        )
         return st.plotly_chart(fig, use_container_width=True)
 
     def get_chart(self):

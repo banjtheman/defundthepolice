@@ -1,31 +1,32 @@
-import glob
 import os
 
 import streamlit as st
 
 from apps.configs import STATES_FOLDER
 from apps.county_compare.utils import CountyInfo
-from viz import ChartTypes
+from apps.utils import fonts
+from apps.viz import ChartTypes
+
+
+def get_county(state):
+    return os.listdir(STATES_FOLDER + state)
 
 
 def view():
     # Select state
     states = os.listdir(STATES_FOLDER)
-    state = st.selectbox("Select State", states)
+    first_state = st.selectbox("Select First State", states)
+    second_state = st.selectbox("Select Second State", states)
 
     # select county
-    counties = os.listdir(STATES_FOLDER + state)
-    first_county = st.selectbox("Select First County", counties)
-    second_county = st.selectbox("Select Second County", counties)
+    first_county = st.selectbox("Select First County", get_county(first_state))
+    second_county = st.selectbox("Select Second County", get_county(second_state))
 
     if first_county == second_county:
         st.error("Please select different counties!!")
         st.stop()
 
-    fonts = ["fonts/Chunk_Five_Print.otf"]
-
-    fonts.extend(glob.glob("fonts/*"))
-    font = st.selectbox("Select Font", fonts)
+    font = st.selectbox("Select Font", fonts())
 
     bg_color = st.beta_color_picker("Background color", "#496D89")
     st.write("The current  background color is", bg_color)
@@ -36,10 +37,10 @@ def view():
     chart = st.selectbox("Chart Types", ChartTypes.list())
 
     first_county_info = CountyInfo(
-        first_county, state, bg_color, text_color, font, chart
+        first_county, first_state, bg_color, text_color, font, chart
     )
     second_county_info = CountyInfo(
-        second_county, state, bg_color, text_color, font, chart
+        second_county, second_state, bg_color, text_color, font, chart
     )
 
     first_county_police_data, first_county_budget_df = first_county_info.get_data()

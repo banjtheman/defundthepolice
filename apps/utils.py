@@ -1,3 +1,4 @@
+import glob
 import json
 import logging
 import pandas as pd
@@ -6,6 +7,10 @@ import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
 from apps.configs import STATES_FOLDER
+
+
+def fonts():
+    return ["fonts/Chunk_Five_Print.otf"] + glob.glob("fonts/*")
 
 
 def draw_image(text, bg_color, text_color, font):

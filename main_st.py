@@ -23,7 +23,7 @@ def show_menu():
     )
 
     # TODO add more "apps" such as county compare tool
-    selection = st.sidebar.radio("Go to", list(PAGES.keys()))
+    selection = st.sidebar.selectbox("Go To", list(PAGES.keys()))
     page = PAGES.get(selection)
     page()
 

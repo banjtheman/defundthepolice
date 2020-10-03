@@ -1,7 +1,7 @@
 import textwrap
 
 from apps.utils import create_budget_json, draw_image
-from viz import ChartDisplay
+from apps.viz import ChartDisplay
 
 
 class CountyInfo:

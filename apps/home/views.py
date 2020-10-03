@@ -1,4 +1,3 @@
-import glob
 import os
 import textwrap
 import math
@@ -7,8 +6,8 @@ import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
 from apps.configs import STATES_FOLDER
-from apps.utils import draw_image, create_budget_json
-from viz import ChartDisplay, ChartTypes
+from apps.utils import draw_image, create_budget_json, fonts
+from apps.viz import ChartDisplay, ChartTypes
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
@@ -91,10 +90,7 @@ def view():
     wrapped_string = textwrap.wrap(header_string, width=30)
     # st.header(wrapped_string)
 
-    fonts = ["fonts/Chunk_Five_Print.otf"]
-
-    fonts.extend(glob.glob("fonts/*"))
-    font = st.selectbox("Select Font", fonts)
+    font = st.selectbox("Select Font", fonts())
 
     bg_color = st.beta_color_picker("Background color", "#496D89")
     st.write("The current  background color is", bg_color)

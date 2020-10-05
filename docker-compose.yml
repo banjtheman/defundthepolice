@@ -8,3 +8,14 @@ services:
     volumes:
       - ".:/app"
     command: "streamlit run main_st.py"
+    db:
+      build: ./db
+      container_name: postgres
+      ports:
+        - "5431:6666"
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=db_name
+      volumes:
+        - ./data:/data

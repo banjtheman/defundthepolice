@@ -2,9 +2,27 @@ version: "3"
 
 services:
   main:
-    build: .
+    build:
+        context: .
+        dockerfile: ./docker/service/Dockerfile
     ports:
       - "8501:8501"
     volumes:
       - ".:/app"
     command: "streamlit run main_st.py"
+
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    environment:
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=1234
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_DATABASE=dfp
+    ports:
+      - "9000:9000"
+    volumes:
+      - ".:/app"
+    command: "gunicorn --bind 0.0.0.0:9000 api.budgetsdata:application"

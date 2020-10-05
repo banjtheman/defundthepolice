@@ -1,31 +1,22 @@
 import os
 import textwrap
-import math
 
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
-from apps.configs import STATES_FOLDER
-from apps.utils import draw_image, create_budget_json, fonts
+from apps.configs import STATES_FOLDER, INVESTMENT_DETAILS_DICT
+from apps.utils import draw_image, create_budget_json, fonts, Investment
 from apps.viz import ChartDisplay, ChartTypes
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
 
 def make_investment_image(investment, reinvest_money, bg_color, text_color, font):
-    if investment == "Education":
-        cpu_cost = 500.0
-        laptops = int(math.ceil(reinvest_money / cpu_cost))
-
-        laptops_string = str(f"{laptops:,}")
-        text = "That translates to " + laptops_string + " laptops for our community"
-        wrapped_string = textwrap.wrap(text, width=30)
-        image = draw_image(wrapped_string, bg_color, text_color, font)
-
-        st.image(image, use_column_width=True)
-        st.write("*500 dollar laptops")
-
     # TODO add in extra investments
+    investment = Investment(reinvest_money=reinvest_money, **INVESTMENT_DETAILS_DICT.get(investment, {}))
+    text = investment.get_text()
+    image = draw_image(text, bg_color, text_color, font)
+    st.image(image, use_column_width=True)
 
 
 def get_concat_v_cut(im1, im2):
@@ -109,8 +100,8 @@ def view():
     reinvest_money = float(police_data["budget"]) * defund_decmial
     reinvest_money_string = "$" + f"{int(reinvest_money):,}"
 
-    investments = ["Education", "Healthcare", "Social Programs"]
-    realocate = st.selectbox("Reinvest", investments)
+    # investments = ["Education", "Healthcare", "Social Programs"]
+    realocate = st.selectbox("Reinvest", list(INVESTMENT_DETAILS_DICT.keys()))
 
     realoc_str = (
         "By defunding the police by "

@@ -1,6 +1,10 @@
 import glob
 import json
 import logging
+import math
+import textwrap
+from dataclasses import dataclass
+
 import pandas as pd
 import streamlit as st
 
@@ -77,3 +81,19 @@ def create_budget_json(state, county):
 
     police_data = select_police_row(budget_df)
     return police_data, budget_df
+
+
+@dataclass
+class Investment:
+    reinvest_money: float
+    cost: int
+    gain_template: str
+    text: str
+
+    def __post_init__(self):
+        self.gain = int(math.ceil(self.reinvest_money / self.cost))
+        self.gain_template = self.gain_template.format(self.gain)
+        self.text = self.text.format(self.gain_template)
+
+    def get_text(self):
+        return textwrap.wrap(self.text, width=30)

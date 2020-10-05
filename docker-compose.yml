@@ -4,7 +4,7 @@ services:
   main:
     build:
         context: .
-        dockerfile: ./docker/service/Dockerfile
+        dockerfile: ./docker/main/Dockerfile
     ports:
       - "8501:8501"
     volumes:

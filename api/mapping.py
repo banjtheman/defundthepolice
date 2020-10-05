@@ -7,22 +7,24 @@
     This file can be removed in the future if the string for states in the CSV files and the names of the folders are same.
 """
 
-def  statereversemap(state):
-    if state=='Virginia':
-        return ('VA',)
-    elif state=='Texas':
-        return ('TX',)
+
+def statereversemap(state):
+    if state == "Virginia":
+        return ("VA",)
+    elif state == "Texas":
+        return ("TX",)
+
 
 def statemap(statesset):
 
     try:
-        if statesset!=None:
-            statesset.remove(('TX',))
-            statesset.add('Texas')
-            statesset.remove(('VA',))
-            statesset.add('Virginia')
+        if statesset != None:
+            statesset.remove(("TX",))
+            statesset.add("Texas")
+            statesset.remove(("VA",))
+            statesset.add("Virginia")
         else:
-            stateset=set()
+            stateset = set()
     except:
         pass
     return statesset

@@ -4,17 +4,18 @@ import logging
 from sqlalchemy.orm import load_only
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-from mapping import statemap, statereversemap
+from api.mapping import statemap, statereversemap
 import pandas as pd
 
 
 application = Flask(__name__)
 
-
-# TODO have this read from env
-# Database config string = postgresql://<username>:<password>@<server_address>/databasename
-application.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:1234@localhost/dfp"
-
+db_user_name = os.environ.get("DB_USERNAME")
+db_password = os.environ.get("DB_PASSWORD")
+db_host = os.environ.get("DB_HOST")
+db_port = os.environ.get("DB_PORT")
+db_database = os.environ.get("DB_DATABASE")
+application.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://{db_user_name}:{db_password}@{db_host}:{db_port}/{db_database}'
 db = SQLAlchemy(application)
 
 """ SQLAlchemy model for states and counties """
@@ -30,7 +31,7 @@ class States(db.Model):
     source = db.Column(db.String(150))
 
     def __init__(self, state, countyname, year, item, budget, source):
-        self.state = statename
+        self.state = state
         self.countyname = countyname
         self.year = year
         self.item = item
@@ -128,6 +129,9 @@ def getdata():
 
     return responsedata
 
+@application.route("/health")
+def health():
+    return jsonify({"true":True})
 
 if __name__ == "__main__":
     path = os.path.dirname(os.path.abspath(__file__))

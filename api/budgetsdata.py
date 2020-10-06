@@ -22,6 +22,7 @@ db = SQLAlchemy(application)
 
 
 class States(db.Model):
+    __tablename__ = 'budget_data'
     id = db.Column(db.Integer, primary_key=True)
     state = db.Column(db.String(50))
     county = db.Column(db.String(50))
@@ -112,20 +113,26 @@ def checkstates():
 @application.route("/getdata")
 def getdata():
     state = request.args.get("state")
+    if len(state) == 2:
+        state = state.upper()
+    else:
+        state = statereversemap(state)[0]
     county = request.args.get("county")
     data = States.query.filter(
-        States.state == statereversemap(state), States.county == county
-    )
+        States.state == state, States.county == county
+        ).all()
     responsedata = dict()
     responsedata["state"] = state
     responsedata["county"] = county
 
-    for i in data:
-        i_dict = i.__dict__
-        responsedata[i_dict["item"]] = i_dict["budget"]
+    if data:
+        for budget_row in data:
+            responsedata[budget_row.item] = budget_row.budget
 
-    responsedata["year"] = i_dict["year"]
-    responsedata["source"] = i_dict["source"]
+        responsedata["year"] = budget_row.year
+        responsedata["source"] = budget_row.source
+    else:
+        responsedata['error'] = f'Nothing returned for the state/county combination.'
 
     return responsedata
 

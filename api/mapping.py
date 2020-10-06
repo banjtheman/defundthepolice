@@ -9,9 +9,9 @@
 
 
 def statereversemap(state):
-    if state == "Virginia":
+    if state.lower() == "virginia":
         return ("VA",)
-    elif state == "Texas":
+    elif state.lower() == "texas":
         return ("TX",)
 
 

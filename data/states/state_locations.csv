@@ -1,0 +1,52 @@
+state_name,state_alpha,lon,lat
+Minnesota,MN,-93.364,46.0592
+Montana,MT,-110.044,46.9965
+North Dakota,ND,-100.302,47.4675
+Hawaii,HI,-157.999,21.4919
+Idaho,ID,-114.133,43.7825
+Washington,WA,-120.361,47.4865
+Arizona,AZ,-111.935,34.3046
+California,CA,-119.591,36.7496
+Colorado,CO,-105.543,38.9998
+Nevada,NV,-117.02,39.4299
+New Mexico,NM,-106.024,34.5002
+Oregon,OR,-120.386,43.8333
+Utah,UT,-111.544,39.5007
+Wyoming,WY,-107.552,42.9999
+Arkansas,AR,-92.1428,34.7563
+Iowa,IA,-93.3891,42.0423
+Kansas,KS,-98.3309,38.5
+Missouri,MO,-92.446,38.5487
+Nebraska,NE,-99.6855,41.5002
+Oklahoma,OK,-97.1309,35.452
+South Dakota,SD,-100.255,44.4711
+Louisiana,LA,-91.9991,30.5274
+Texas,TX,-98.7607,31.131
+Connecticut,CT,-72.7594,41.6486
+Massachusetts,MA,-71.9993,42.3739
+New Hampshire,NH,-71.6301,43.5993
+Rhode Island,RI,-71.5082,41.6242
+Vermont,VT,-72.7317,44.0886
+Alabama,AL,-86.7184,32.8551
+Florida,FL,-81.6228,28.1568
+Georgia,GA,-83.4078,32.8547
+Mississippi,MS,-89.7189,32.8657
+South Carolina,SC,-80.6471,33.8578
+Illinois,IL,-89.1991,39.946
+Indiana,IN,-86.1396,39.8874
+Kentucky,KY,-85.5729,37.3994
+North Carolina,NC,-78.866,35.6152
+Ohio,OH,-82.6719,40.0924
+Tennessee,TN,-86.3415,35.7514
+Virginia,VA,-78.2431,37.7403
+Wisconsin,WI,-89.5831,44.3709
+West Virginia,WV,-80.7128,38.6422
+Delaware,DE,-75.4112,38.8657
+District of Columbia,DC,-77.0113,38.8922
+Maryland,MD,-77.0454,39.3874
+New Jersey,NJ,-74.4653,40.0449
+New York,NY,-75.3242,43.1988
+Pennsylvania,PA,-77.6094,40.8601
+Maine,ME,-69.1973,45.148
+Michigan,MI,-84.9479,43.4343
+Alaska,AK,-151.604,65.3609

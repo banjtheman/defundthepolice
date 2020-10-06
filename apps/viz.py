@@ -45,7 +45,7 @@ class ChartDisplay:
             alt.Chart(self.data)
             .mark_bar()
             .encode(
-                x=xcol_string, y=y_col, color=z_col, tooltip=list(self.data.columns)
+                x=x_col, y=alt.Y(y_col,sort='-x'),color=z_col, tooltip=list(self.data.columns)
             )
             # .interactive()
             # .properties(title="Defund The Police")

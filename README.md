@@ -39,7 +39,7 @@ There will be PRs you can do, right now that wil get us data and help spread our
 
 To learn more check out their [FAQ](https://hacktoberfest.digitalocean.com/faq/)
 
-## Dockerized applciation
+## Dockerized application
 
 To start the application first install [Docker](https://docs.docker.com/engine/install/) 
 and (docker-compose)[https://docs.docker.com/compose/].
@@ -47,11 +47,21 @@ and (docker-compose)[https://docs.docker.com/compose/].
 P.S: Make sure to follow post installation [steps](https://docs.docker.com/engine/install/linux-postinstall/) 
 for linux distributions.
 
-After this you can run the application using:
-* `docker-compose up --build -d`
+After this you can run the main application using:
+* `docker-compose -f docker-compose.main.yml up --build -d`
+
+For running the budgets as a service application do:
+* `docker-compose -f docker-compose.api.yml up --build -d`
+* navigate to `0.0.0.0:9000/health` to see if it's up
 
 In order to look at the logs you can run:
-* `docker-compose logs -f`
+* `docker-compose -f docker-compose.main.yml logs -f`
+
+In order to look at the budgets as a service logs you can run:
+* `docker-compose -f docker-compose.api.yml logs -f`
 
 In order to stop the application from running on docker you can do
-* `docker-compose down`
+* `docker-compose -f docker-compose.main.yml down`
+
+In order to look at the budgets as a service logs you can run:
+* `docker-compose -f docker-compose.api.yml down`

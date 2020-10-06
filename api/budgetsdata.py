@@ -9,13 +9,7 @@ import pandas as pd
 
 
 application = Flask(__name__)
-
-db_user_name = os.environ.get("DB_USERNAME")
-db_password = os.environ.get("DB_PASSWORD")
-db_host = os.environ.get("DB_HOST")
-db_port = os.environ.get("DB_PORT")
-db_database = os.environ.get("DB_DATABASE")
-application.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://{db_user_name}:{db_password}@{db_host}:{db_port}/{db_database}'
+application.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 db = SQLAlchemy(application)
 
 """ SQLAlchemy model for states and counties """
@@ -136,9 +130,11 @@ def getdata():
 
     return responsedata
 
+
 @application.route("/health")
 def health():
-    return jsonify({"true":True})
+    return jsonify({"true": True})
+
 
 if __name__ == "__main__":
     path = os.path.dirname(os.path.abspath(__file__))

@@ -1,31 +1,32 @@
 version: "3"
 
+volumes:
+  db:
+
 services:
   postgres:
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=dfp
+    env_file:
+      - docker/postgres/.env
     ports:
       - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
 
   api:
+    depends_on:
+      - postgres
     build:
       context: .
       dockerfile: ./docker/api/Dockerfile
-    environment:
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=1234
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_DATABASE=dfp
+    env_file:
+      - docker/api/.env
     ports:
       - "9000:9000"
     volumes:
       - ".:/app"
+      - "/data:/app/data"
     command: "gunicorn --bind 0.0.0.0:9000 api.budgetsdata:application"
-    links:
-      - postgres
+

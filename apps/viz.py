@@ -22,7 +22,8 @@ class ChartDisplay:
             "Select which columns to display on the bar chart below which displays percent of budget"
         )
         selected_cols = st.multiselect(
-            "Select columns", list(data.get("item", "")), list(data.get("item", ""))
+            "Select columns", list(data.get("item", "")), list(
+                data.get("item", ""))
         )
         self.data = data.loc[data.get("item", "").isin(selected_cols)]
         self.CHART_DICT = {
@@ -45,7 +46,8 @@ class ChartDisplay:
             alt.Chart(self.data)
             .mark_bar()
             .encode(
-                x=xcol_string, y=y_col, color=z_col, tooltip=list(self.data.columns)
+                x=xcol_string, y=alt.Y(y_col, sort="-x"), color=z_col, tooltip=list(
+                    self.data.columns)
             )
             # .interactive()
             # .properties(title="Defund The Police")

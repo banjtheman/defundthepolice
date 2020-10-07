@@ -59,7 +59,7 @@ def show_light_theme():
                 <style>
                 #MainMenu {visibility: hidden;}
                 footer {visibility: hidden;}
-                .sidebar .sidebar-content {background-image: linear-gradient(180deg,##ff6b6b,#ffe66d);}
+                .sidebar .sidebar-content {background-image: linear-gradient(180deg,#ff6b6b,#ffe66d);}
                 .btn-outline-secondary {
                 border-color: #09ab3b85;
                 color: #000000;

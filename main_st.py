@@ -12,7 +12,7 @@ def show_menu():
     st.sidebar.title("Social Media Toolkit Generator")
     st.sidebar.header("Defund the Police")
     
-    dark_theme = st.checkbox('Dark theme')
+    dark_theme = st.sidebar.checkbox('Dark theme')
     if dark_theme :
       show_dark_theme()
     else:

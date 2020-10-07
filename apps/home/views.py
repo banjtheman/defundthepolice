@@ -135,22 +135,3 @@ def view():
             )
         except Exception as error:
             st.error(error)
-
-    hide_streamlit_style = """
-                <title> Half Explot </title>
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                .sidebar .sidebar-content {background-image: linear-gradient(180deg,#4CA1AF,#2c3e50);}
-                .btn-outline-secondary {
-                border-color: #09ab3b85;
-                color: #f9f9f9;
-                }
-                body {
-                color: #fafafa;
-                text-align: left;
-                background-color: #262730;
-                }
-                </style>
-                """
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True)

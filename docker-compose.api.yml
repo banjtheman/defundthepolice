@@ -29,3 +29,16 @@ services:
     command: "gunicorn --bind 0.0.0.0:9000 api.budgetsdata:application"
     links:
       - postgres
+
+  graphql-engine:
+    image: hasura/graphql-engine:v1.3.2
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:1234@postgres:5432/dfp
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log

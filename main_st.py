@@ -34,7 +34,7 @@ def show_menu():
     page()
     
 def show_dark_theme():
-     hide_streamlit_style = """
+    hide_streamlit_style = """
                 <title> Half Explot </title>
                 <style>
                 #MainMenu {visibility: hidden;}

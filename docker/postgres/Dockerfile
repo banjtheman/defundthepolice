@@ -1,4 +1,4 @@
-FROM postgres:9.3
+FROM postgres:12
 
 # Need dos2unix since some CSVs have inconsistent line endings.
 RUN apt update && apt install -y dos2unix

@@ -15,14 +15,16 @@ db_password = os.environ.get("DB_PASSWORD")
 db_host = os.environ.get("DB_HOST")
 db_port = os.environ.get("DB_PORT")
 db_database = os.environ.get("DB_DATABASE")
-application.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://{db_user_name}:{db_password}@{db_host}:{db_port}/{db_database}'
+application.config[
+    "SQLALCHEMY_DATABASE_URI"
+] = f"postgresql://{db_user_name}:{db_password}@{db_host}:{db_port}/{db_database}"
 db = SQLAlchemy(application)
 
 """ SQLAlchemy model for states and counties """
 
 
 class States(db.Model):
-    __tablename__ = 'budget_data'
+    __tablename__ = "budget_data"
     id = db.Column(db.Integer, primary_key=True)
     state = db.Column(db.String(50))
     county = db.Column(db.String(50))
@@ -66,7 +68,7 @@ def checkcounties(statesfolder):
         if len(countiesdiff) == 0:
             logging.info("No changes in counties")
         else:
-            logging.info("Changes Detected: "+ str(countiesdiff))
+            logging.info("Changes Detected: " + str(countiesdiff))
 
         if len(countiesdiff) > 0:
             for j in countiesdiff:
@@ -94,7 +96,7 @@ def checkstates():
         logging.info("No changes in states")
 
     elif len(statesdiff) > 0:
-        logging.info("Changes in states detected: "+ str(statesdiff))
+        logging.info("Changes in states detected: " + str(statesdiff))
         for i in statesdiff:
 
             os.chdir(os.path.join(os.getcwd(), i))
@@ -118,9 +120,7 @@ def getdata():
     else:
         state = statereversemap(state)[0]
     county = request.args.get("county")
-    data = States.query.filter(
-        States.state == state, States.county == county
-        ).all()
+    data = States.query.filter(States.state == state, States.county == county).all()
     responsedata = dict()
     responsedata["state"] = state
     responsedata["county"] = county
@@ -132,13 +132,15 @@ def getdata():
         responsedata["year"] = budget_row.year
         responsedata["source"] = budget_row.source
     else:
-        responsedata['error'] = f'Nothing returned for the state/county combination.'
+        responsedata["error"] = f"Nothing returned for the state/county combination."
 
     return responsedata
 
+
 @application.route("/health")
 def health():
-    return jsonify({"true":True})
+    return jsonify({"true": True})
+
 
 if __name__ == "__main__":
     path = os.path.dirname(os.path.abspath(__file__))

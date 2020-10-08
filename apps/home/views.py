@@ -13,7 +13,9 @@ st.set_option("deprecation.showfileUploaderEncoding", False)
 
 def make_investment_image(investment, reinvest_money, bg_color, text_color, font):
     # TODO add in extra investments
-    investment = Investment(reinvest_money=reinvest_money, **INVESTMENT_DETAILS_DICT.get(investment, {}))
+    investment = Investment(
+        reinvest_money=reinvest_money, **INVESTMENT_DETAILS_DICT.get(investment, {})
+    )
     text = investment.get_text()
     image = draw_image(text, bg_color, text_color, font)
     st.image(image, use_column_width=True)

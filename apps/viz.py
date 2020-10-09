@@ -9,6 +9,7 @@ from plotly import graph_objects
 class ChartTypes(Enum):
     BAR_CHART = "Bar Chart"
     PIE_CHART = "Pie Chart"
+    STACKED_BAR_CHART = "Horizontal Stacked Bar Chart"
 
     @classmethod
     def list(cls):
@@ -28,6 +29,7 @@ class ChartDisplay:
         self.CHART_DICT = {
             ChartTypes.BAR_CHART.value: self.bar_chart,
             ChartTypes.PIE_CHART.value: self.pie_chart,
+            ChartTypes.STACKED_BAR_CHART.value: self.stacked_bar_chart
         }
 
     def bar_chart(self):
@@ -66,6 +68,22 @@ class ChartDisplay:
             data=[graph_objects.Pie(labels=labels, values=values)]
         )
         return st.plotly_chart(fig, use_container_width=True)
+
+    def stacked_bar_chart(self):
+        print(self.data)
+        chart = (
+            alt.Chart(self.data, height=450)
+            .mark_bar()
+            .encode(
+                x=alt.X('sum(percent)', stack="normalize", axis=alt.Axis(format='%')),
+                y='source',
+                color='item'
+            )
+            .configure_title(fontSize=20)
+            .configure_axis(labelFontSize=10, titleFontSize=10)
+            .configure_legend(labelFontSize=10, titleFontSize=10)
+        )
+        return st.altair_chart(chart, use_container_width=True)
 
     def get_chart(self):
         return self.CHART_DICT.get(self.chart)()

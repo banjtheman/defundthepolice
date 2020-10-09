@@ -29,7 +29,7 @@ class ChartDisplay:
         self.CHART_DICT = {
             ChartTypes.BAR_CHART.value: self.bar_chart,
             ChartTypes.PIE_CHART.value: self.pie_chart,
-            ChartTypes.STACKED_BAR_CHART.value: self.stacked_bar_chart
+            ChartTypes.STACKED_BAR_CHART.value: self.stacked_bar_chart,
         }
 
     def bar_chart(self):
@@ -78,14 +78,30 @@ class ChartDisplay:
             alt.Chart(self.data, height=450)
             .mark_bar()
             .encode(
-                x=alt.X('sum(percent)', stack="normalize", axis=alt.Axis(format='%')),
-                y='source',
-                color='item'
+                x=alt.X("sum(percent)", stack="normalize", axis=alt.Axis(format="%")),
+                y=alt.Y("source", axis=None),
+                color="item",
+                tooltip=list(self.data.columns),
+                order=alt.Order(
+                    # Sort the segments of the bars by this field
+                    "percent",
+                    sort="ascending",
+                ),
             )
             .configure_title(fontSize=20)
             .configure_axis(labelFontSize=10, titleFontSize=10)
             .configure_legend(labelFontSize=10, titleFontSize=10)
         )
+
+        # text = alt.Chart(self.data).mark_text(dx=-5, dy=3, color='white').encode(
+        #     x=alt.X("sum(percent)", stack="normalize", axis=alt.Axis(format="%")),
+        #     y=alt.Y("source",axis=None),
+        #     detail='item:N',
+        #     text=alt.Text('item')
+        # )
+
+        # full_chart = chart + text
+
         return st.altair_chart(chart, use_container_width=True)
 
     def get_chart(self):

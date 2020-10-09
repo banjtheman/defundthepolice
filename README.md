@@ -7,7 +7,7 @@ When it comes to finding how much each of these departments spend individually, 
 The goal of this project is to provide transparency on police budgets on a local level, and provide a social media toolkit to spread messages on how to better utilize police funding for empowering communities. 
 
 You can view the site here
-https://s4a.streamlit.io/banjtheman/defundthepolice/main/main_st.py/+/
+https://share.streamlit.io/banjtheman/defundthepolice/main/main_st.py
 
 Here is some example output
 

@@ -2,7 +2,7 @@ import os
 import logging
 
 from sqlalchemy.orm import load_only
-from flask import Flask, jsonify, request
+     from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from api.mapping import statemap, statereversemap
 import pandas as pd
@@ -24,7 +24,7 @@ db = SQLAlchemy(application)
 
 
 class States(db.Model):
-    __tablename__ = "budget_data"
+      __tablename__ = "budget_data"
     id = db.Column(db.Integer, primary_key=True)
     state = db.Column(db.String(50))
     county = db.Column(db.String(50))

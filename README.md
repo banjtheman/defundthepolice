@@ -1,4 +1,4 @@
-# Defund The Police
+# Defund The Police [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/banjtheman/defundthepolice/main/main_st.py)
 
 There are about 18,000 state and local police agencies in the US. Police funding is the second largest category of local government spending after education. On average, the United States spends $340 per person per year for public policing, for a total of $193 billion in spending in 2017. [Click here to learn more](https://www.urban.org/policy-centers/cross-center-initiatives/state-and-local-finance-initiative/state-and-local-backgrounders/police-and-corrections-expenditures)
 

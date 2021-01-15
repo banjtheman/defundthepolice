@@ -39,7 +39,7 @@ There will be PRs you can do, right now that wil get us data and help spread our
 
 To learn more check out their [FAQ](https://hacktoberfest.digitalocean.com/faq/)
 
-## Dockerized applciation
+## Dockerized application
 
 To start the application first install [Docker](https://docs.docker.com/engine/install/) 
 and (docker-compose)[https://docs.docker.com/compose/].
